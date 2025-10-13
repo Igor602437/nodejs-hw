@@ -1,5 +1,13 @@
+import createHttpError from 'http-errors';
+
 export const errorHandler = (err, req, res, next) => {
-  console.error(err);
+  console.error('Error Middleware:', err);
+
+  if (err instanceof createHttpError) {
+    return res.status(err.status).json({
+      message: err.message || err.name,
+    });
+  }
 
   const isProd = process.env.NODE_ENV === 'production';
 
