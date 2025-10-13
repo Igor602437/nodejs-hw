@@ -5,7 +5,7 @@ const noteSchema = new Schema(
     title: {
       type: String,
       required: true,
-      trim: true, // прибирає пробіли на початку та в кінці
+      trim: true,
     },
     content: {
       type: String,
