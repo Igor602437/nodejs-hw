@@ -8,8 +8,8 @@ router.get('/notes', getNotes);
 
 router.get('/notes/:noteId', getNoteById);
 
-router.get('/test-error', () => {
-  throw new Error('Simulated server error');
-});
+// router.get('/test-error', () => {
+//   throw new Error('Simulated server error');
+// });
 
 export default router;
