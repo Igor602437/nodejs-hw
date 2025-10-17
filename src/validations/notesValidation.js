@@ -22,9 +22,11 @@ export const getAllNotesSchema = {
       .messages({
         'any.only': `Tag must be one of: ${TAGS.join(', ')}`,
       }),
-    search: Joi.string().allow('').messages({
+    search: Joi.string().trim().allow('').messages({
       'string.base': 'Search must be a string',
     }),
+    sortBy: Joi.string().valid('_id', 'title', 'content', 'tag').default('_id'),
+    sortOrder: Joi.string().valid('asc', 'desc').default('asc'),
   }),
 };
 
@@ -49,7 +51,6 @@ export const createNoteSchema = {
       .messages({
         'any.only': `Tag must be one of: ${TAGS.join(', ')}`,
       }),
-    search: Joi.string().allow(''),
   }),
 };
 export const updateNoteSchema = {
@@ -69,5 +70,5 @@ export const updateNoteSchema = {
       .messages({
         'any.only': `Tag must be one of: ${TAGS.join(', ')}`,
       }),
-  }),
+  }).min(1),
 };
