@@ -45,26 +45,17 @@ export const loginUser = async (req, res, next) => {
   res.status(200).json(user);
 };
 
-export const logoutUser = async (req, res, next) => {
+export const logoutUser = async (req, res) => {
   const { sessionId } = req.cookies;
-  try {
-    if (sessionId) {
-      const result = await Session.deleteOne({ _id: sessionId });
-      if (result.deletedCount === 0) {
-        throw createHttpError(404, 'Session not found');
-      }
-    } else {
-      throw createHttpError(400, 'Session ID is missing');
-    }
-
-    res.clearCookie('sessionId');
-    res.clearCookie('accessToken');
-    res.clearCookie('refreshToken');
-
-    res.status(204).send();
-  } catch (error) {
-    next(error);
+  if (sessionId) {
+    await Session.deleteOne({ _id: sessionId });
   }
+
+  res.clearCookie('sessionId');
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+
+  res.status(204).send();
 };
 
 export const refreshUserSession = async (req, res, next) => {
