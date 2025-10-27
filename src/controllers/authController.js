@@ -49,7 +49,12 @@ export const logoutUser = async (req, res, next) => {
   const { sessionId } = req.cookies;
   try {
     if (sessionId) {
-      await Session.deleteOne({ _id: sessionId });
+      const result = await Session.deleteOne({ _id: sessionId });
+      if (result.deletedCount === 0) {
+        throw createHttpError(404, 'Session not found');
+      }
+    } else {
+      throw createHttpError(400, 'Session ID is missing');
     }
 
     res.clearCookie('sessionId');
