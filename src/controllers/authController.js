@@ -109,20 +109,26 @@ export const requestResetEmail = async (req, res, next) => {
     { expiresIn: '15m' },
   );
 
-  const templatePath = path.resolve('src/templates/reset-password-email.html');
-  const templateSource = await fs.readFile(templatePath, 'utf-8');
-  const template = handlebars.compile(templateSource);
-  const html = template({
-    name: user.username,
-    link: `${process.env.FRONTEND_DOMAIN}/reset-password?token=${resetToken}`,
-  });
+  // const templatePath = path.resolve('../templates/reset-password-email.html');
+  // const templateSource = await fs.readFile(templatePath, 'utf-8');
+  // const template = handlebars.compile(templateSource);
+  // const html = template({
+  //   name: user.username,
+  //   link: `${process.env.FRONTEND_DOMAIN}/reset-password?token=${resetToken}`,
+  // });
 
   try {
+    // await sendEmail({
+    //   from: process.env.SMTP_FROM,
+    //   to: email,
+    //   subject: 'Reset your password',
+    //   html,
+    // });
     await sendEmail({
       from: process.env.SMTP_FROM,
       to: email,
       subject: 'Reset your password',
-      html,
+      html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
     });
   } catch {
     next(
