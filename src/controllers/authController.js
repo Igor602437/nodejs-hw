@@ -5,9 +5,9 @@ import { createSession, setSessionCookies } from '../services/auth.js';
 import { Session } from '../models/session.js';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/sendMail.js';
-import path from 'node:path';
-import fs from 'node:fs/promises';
-import handlebars from 'handlebars';
+// import path from 'node:path';
+// import fs from 'node:fs/promises';
+// import handlebars from 'handlebars';
 
 export const registerUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -130,7 +130,9 @@ export const requestResetEmail = async (req, res, next) => {
       subject: 'Reset your password',
       html: `<p>Click <a href="${resetToken}">here</a> to reset your password!</p>`,
     });
-  } catch {
+  } catch (error) {
+    console.error('❌ Email send error:', error);
+
     next(
       createHttpError(500, 'Failed to send the email, please try again later.'),
     );
