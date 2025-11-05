@@ -97,7 +97,6 @@ export const requestResetEmail = async (req, res, next) => {
   const { email } = req.body;
 
   const user = await User.findOne({ email });
-  console.log('user: ', user);
 
   if (!user) {
     return res.status(200).json({
@@ -109,7 +108,6 @@ export const requestResetEmail = async (req, res, next) => {
     process.env.JWT_SECRET,
     { expiresIn: '15m' },
   );
-  console.log('reset token: ', resetToken);
 
   // const templatePath = path.resolve('../templates/reset-password-email.html');
   // const templateSource = await fs.readFile(templatePath, 'utf-8');
