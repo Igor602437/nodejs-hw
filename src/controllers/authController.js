@@ -124,9 +124,7 @@ export const requestResetEmail = async (req, res, next) => {
       subject: 'Reset your password',
       html,
     });
-  } catch (error) {
-    console.error('❌ Email send error:', error);
-
+  } catch {
     next(
       createHttpError(500, 'Failed to send the email, please try again later.'),
     );
